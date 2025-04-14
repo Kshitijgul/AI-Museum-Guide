@@ -12,7 +12,7 @@ app = Flask(__name__)
 
 # Configure CORS to allow requests from your React frontend
 # Replace 'http://localhost:3000' with the actual origin of your React app if different
-CORS(app, resources={r"/chat": {"origins": "http://localhost:5177"}})
+CORS(app, resources={r"/chat": {"origins": "http://localhost:5176"}})
 
 # Configure the Gemini API key
 try:

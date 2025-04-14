@@ -6,13 +6,9 @@
   box-sizing: border-box;
   font-family: "Hanken Grotesk", sans-serif;
 }
-#root{
-  min-height: 100vh;
-  display: flex;
 
-}
 
-.app-container {
+/* .app-container {
   display: flex;
   height: 100vh;
   width: 100vw;
@@ -20,6 +16,6 @@
 }
 
 /* Optional: Add smooth transition for sidebar expansion */
-.Sidebar {
-  transition: width 0.3s ease;
-}
+/* .Sidebar {
+  transition: width 0.3s ease; */
+/* }  */

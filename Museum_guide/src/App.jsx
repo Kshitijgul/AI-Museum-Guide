@@ -1,7 +1,7 @@
 import React from 'react';
 import Sidebar from './components/Sidebar/Sidebar';
 import Main from './components/Main/Main';
-import './App.css'; // Create this new file
+import './App.css';
 
 const App = () => {
   return (
