@@ -1,0 +1,106 @@
+/* TechCard.css */
+
+.tech-card-container {
+    display: flex; /* Arrange image and content sections side-by-side */
+    background-color: #1a1a1d; /* Dark background */
+    border-radius: 16px; /* Rounded corners */
+    padding: 20px;
+    max-width: 700px; /* Adjust max-width as needed */
+    margin: 20px auto; /* Center the card for demo */
+    overflow: hidden; /* Ensure child elements respect border-radius */
+    color: #f0f0f5; /* Light text color */
+    font-family: sans-serif; /* Basic font */
+  }
+  
+  /* Left Section: Image Area */
+  .tech-card-image-section {
+    flex: 0 0 180px; /* Fixed width for the image area, adjust as needed */
+    margin-right: 20px;
+    position: relative; /* Needed for absolute positioning of overlays/bubbles */
+    background-color: #252528; /* Slightly lighter background for image area */
+    border-radius: 12px;
+    padding: 10px; /* Optional padding within the image area */
+    display: flex; /* Use flex/grid for layout inside if needed */
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .tech-card-image {
+    display: block; /* Remove extra space below image */
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px; /* Rounded corners for the image itself */
+  }
+  
+  /* Styles for potential image overlays or text bubbles (more complex) */
+  /*
+  .tech-card-image-overlay {
+    position: absolute;
+    top: 10px;
+    left: 30px;
+    width: 60%;
+    border-radius: 8px;
+    opacity: 0.8;
+  }
+  
+  .text-bubble {
+    position: absolute;
+    background-color: rgba(60, 60, 80, 0.8);
+    color: #e0e0ff;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    backdrop-filter: blur(2px);
+  }
+  .bubble-1 { top: 20px; left: -15px; }
+  .bubble-2 { bottom: 30px; right: -20px; }
+  */
+  
+  
+  /* Right Section: Content Area */
+  .tech-card-content-section {
+    flex: 1; /* Take remaining available space */
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+  }
+  
+  .tech-card-category {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #a0a0b0; /* Muted color for category */
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin: 0 0 8px 0; /* Margin bottom */
+  }
+  
+  .tech-card-title {
+    font-size: 1.25rem; /* Adjust size */
+    font-weight: 500;
+    color: #ffffff; /* Brighter white for title */
+    margin: 0 0 16px 0; /* Margin bottom */
+    line-height: 1.4;
+  }
+  
+  .tech-card-icon-button {
+    margin-top: auto; /* Push button to the bottom */
+    margin-left: auto; /* Push button to the right */
+    background: none;
+    border: none;
+    padding: 5px; /* Add padding for easier clicking */
+    cursor: pointer;
+    color: #a0a0ff; /* Icon color */
+    display: inline-flex; /* Align icon nicely if needed */
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%; /* Make it circular if desired */
+    transition: background-color 0.2s ease;
+  }
+  
+  .tech-card-icon-button:hover {
+    color: #c0c0ff; /* Lighter color on hover */
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle background on hover */
+  }
+  
+  .tech-card-icon-button svg {
+    display: block; /* Prevents potential alignment issues */
+  }

@@ -3,12 +3,35 @@ import Sidebar from "../Sidebar/Sidebar";
 import "./Main.css";
 import { assets } from "../../assets/assets";
 
+const API_BASE = 'http://192.168.0.110:5000';
+
+const languageOptions = [
+  { code: 'English', name: 'English' },
+  { code: 'Hindi', name: 'Hindi' },
+  { code: 'Marathi', name: 'Marathi' },
+  { code: 'Bengali', name: 'Bengali' },
+  { code: 'Tamil', name: 'Tamil' },
+  { code: 'Telugu', name: 'Telugu' },
+  { code: 'Gujarati', name: 'Gujarati' },
+  { code: 'Kannada', name: 'Kannada' },
+  { code: 'Malayalam', name: 'Malayalam' },
+  { code: 'Punjabi', name: 'Punjabi' },
+  { code: 'Odia', name: 'Odia' },
+  { code: 'Urdu', name: 'Urdu' },
+  { code: 'Spanish', name: 'Spanish' },
+  { code: 'French', name: 'French' },
+  { code: 'German', name: 'German' }
+];
+
+
 const Main = () => {
   const [currentChatId, setCurrentChatId] = useState(null);
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState([]);
   const [isListening, setIsListening] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [showLanguagePopup, setShowLanguagePopup] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState('ENGLISH');
   const recognitionRef = useRef(null);
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -16,7 +39,7 @@ const Main = () => {
   // Initialize with a new chat
   useEffect(() => {
     if (!currentChatId) {
-      createNewChat();
+      setShowLanguagePopup(true);
     }
   }, []);
 
@@ -67,19 +90,27 @@ const Main = () => {
     }
   }, []);
 
-  const createNewChat = () => {
+  const createNewChat = (languageCode = 'ENGLISH') => {
     const newChatId = Date.now().toString();
     setCurrentChatId(newChatId);
     setMessages([]);
     setInput("");
+    setSelectedLanguage(languageCode);
     
     // Add to recent chats
     const newChat = {
       id: newChatId,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
+      language: languageCode
     };
     const recentChats = JSON.parse(localStorage.getItem('recentChats') || '[]');
     localStorage.setItem('recentChats', JSON.stringify([newChat, ...recentChats]));
+  };
+
+  const handleLanguageSelect = (languageCode) => {
+    setSelectedLanguage(languageCode);
+    setShowLanguagePopup(false);
+    createNewChat(languageCode);
   };
 
   const updateRecentChats = () => {
@@ -88,6 +119,7 @@ const Main = () => {
     
     if (chatIndex >= 0) {
       recentChats[chatIndex].timestamp = new Date().toISOString();
+      recentChats[chatIndex].preview = messages.find(m => m.sender === "user")?.text || "New Chat";
       localStorage.setItem('recentChats', JSON.stringify(recentChats));
     }
   };
@@ -108,11 +140,11 @@ const Main = () => {
     setInput("");
 
     try {
-      const response = await fetch("http://127.0.0.1:5000/chat", {
+      const response = await fetch(`${API_BASE}/ask/translate/${selectedLanguage}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          message: trimmedMessage,
+        body: JSON.stringify({ 
+          question: trimmedMessage,
           chat_history: currentMessages.map(msg => ({
             role: msg.sender === "user" ? "user" : "model",
             content: msg.text,
@@ -121,12 +153,15 @@ const Main = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Service unavailable. Try again later.");
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(`Error: ${errorData.error || 'Unknown error'}`);
       }
 
       const data = await response.json();
+      let botText = data.translated || data.response || 'Received an unexpected response from the server.';
+      
       const botReply = { 
-        text: data.response, 
+        text: botText, 
         sender: "ai",
         timestamp: new Date()
       };
@@ -147,7 +182,6 @@ const Main = () => {
       inputRef.current?.focus();
     }
   };
-
   const toggleSpeechRecognition = () => {
     if (!recognitionRef.current) {
       alert("Speech recognition not supported");
@@ -180,13 +214,43 @@ const Main = () => {
     return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
   };
 
+  // ... (rest of your existing functions: toggleSpeechRecognition, handleKeyPress, handleCardClick, formatTime)
+
   return (
     <div className="app-container">
       <Sidebar 
         currentChatId={currentChatId}
-        onNewChat={createNewChat}
+        onNewChat={() => setShowLanguagePopup(true)}
         onChatSelect={(id) => setCurrentChatId(id)}
       />
+      
+      {/* Language Selection Popup */}
+      {showLanguagePopup && (
+        <div className="language-popup-overlay">
+          <div className="language-popup">
+            <h3>Select Conversation Language</h3>
+            <div className="language-options">
+              {languageOptions.map((lang) => (
+                <div 
+                  key={lang.code}
+                  className={`language-option ${selectedLanguage === lang.code ? 'selected' : ''}`}
+                  onClick={() => handleLanguageSelect(lang.code)}
+                >
+                  {lang.name}
+                </div>
+              ))}
+            </div>
+            <button 
+              className="confirm-button"
+              onClick={() => handleLanguageSelect(selectedLanguage)}
+            >
+              Confirm
+            </button>
+          </div>
+        </div>
+      )}
+
+      <div className="main">
       <div className="main">
         <div className="nav">
           <p>AI Museum Guide</p>
@@ -276,6 +340,8 @@ const Main = () => {
             </p>
           </div>
         </div>
+      </div>
+        {/* ... rest of your existing JSX ... */}
       </div>
     </div>
   );

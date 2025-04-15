@@ -1,0 +1,115 @@
+
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
+.app-background{
+  font-family: "Old Standard TT", serif;
+  /* --- Essential Styles --- */
+  background-image: url('./assets/background.png'); /* Adjust path - often easier to use public folder here */
+  padding: 20px; /* IMPORTANT: Remove default body margin */
+  min-height: 100vh;
+  margin: 0;
+  min-width: 95vw;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+
+  /* --- Optional Styles --- */
+  /* background-attachment: fixed; */
+
+  /* Font styles, etc., can also go here if they are truly global */
+  font-family: sans-serif;
+}
+.navbar-title{
+  display: flex;
+
+   /* font-family: "Old Standard TT", serif; */
+  font-size: 22px;
+  font-weight: 600;
+  color: #a6a6a6;
+  
+}
+.navbar-title img{
+  width: 4vw;
+  height: 4vw;
+}
+.app-background h1{
+  text-align: center;
+}
+/* Ensure html also takes full height */
+/* You might still want styles for your root div if needed, but not for the background */
+.Main{
+  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  /* width: vw; */
+  height: 100vh;
+}
+.Main p{
+  font-size: 1.3vw;
+  /* color: #627eb3; */
+  color: #F0E2DB;
+  /* color: #4c42db; */
+  margin: 0;
+}
+.Main h1{
+  font-family: "Old Standard TT", serif;
+  text-transform: uppercase;
+  font-weight: 900;
+  font-style: normal;
+  font-size: 5vw;
+  margin: 0;
+  padding: 0.5vw;
+  /* background: -webkit-linear-gradient(#eee, #007bff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+}
+.Main h4{
+  font-size: 1.5vw;
+  color: #c49e64;
+  margin: 0vw 20vw;
+  font-weight: 200;
+  text-align: center;
+}
+/* .Main button{
+  justify-content: center;
+  display: flex;
+  font-size: 1vw;
+  font-weight: 500  ;
+ margin: 3rem;
+ border-radius: 25px;
+ font-family: "Old Standard TT", serif;
+}
+.Main button:hover{
+  background-color: #F0E2DB;
+  color: 
+  
+ } */
+
+ .chat-button {
+  /* --- Core Styles for Alignment & Spacing --- */
+  display: inline-flex;   /* Use inline-flex to keep button inline, or flex for block */
+  align-items: center;     /* Vertically center items (text and icon) */
+  gap: 8px;                /* Add space between text and icon (adjust as needed) */
+       /* Adjust font size */
+  transition: background-color 0.2s ease; /* Smooth hover effect */
+  font-size: 1vw;
+  font-weight: 500  ;
+ margin: 5rem 3rem 0rem 0rem;
+ border: 1px #F0E2DB solid;
+ border-radius: 25px;
+ font-family: "Old Standard TT", serif;
+ transition: background-color 0.5s ease;
+}
+
+/* Optional: Style the icon specifically if needed, though often not required */
+/* .chat-button svg { */
+  /* vertical-align: middle; */ /* Usually not needed with flexbox align-items */
+/* } */
+
+.chat-button:hover {
+  background-color: #e0e0e0; /* Example hover effect */
+  color: black;
+  border: 1px #F0E2DB solid;
+}

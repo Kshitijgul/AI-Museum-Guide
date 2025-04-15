@@ -1,0 +1,81 @@
+/* SwiperStyles.css */
+
+/* Keep styles for .swiper-container-wrapper */
+.swiper-container-wrapper {
+    height: 300px; /* Or adjust as needed */
+    width: 100%; /* Or specific width */
+    max-width: 800px; /* Example max-width */
+    margin: 20px auto; /* Example centering */
+}
+
+/* Keep Swiper container styles */
+.swiper {
+  width: 100%;
+  height: 100%;
+  /* Removed padding-bottom as progress indicator is gone */
+  /* padding-bottom: 50px; */
+}
+
+/* Keep modified swiper-slide styles */
+.swiper-slide {
+  background: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  height: auto;
+}
+
+/* Keep styles for TechCard inside the slide */
+.swiper-slide .tech-card-container {
+    width: 90%;
+    max-width: 650px;
+    margin: 0;
+    height: auto;
+}
+
+/* --- REMOVED Autoplay Progress Indicator Styles --- */
+/*
+.autoplay-progress {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  z-index: 10;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--swiper-theme-color, #007aff);
+}
+
+.autoplay-progress svg {
+  --progress: 0;
+  position: absolute;
+  left: 0;
+  top: 0px;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  stroke-width: 4px;
+  stroke: var(--swiper-theme-color, #007aff);
+  fill: none;
+  stroke-dashoffset: calc(125.6px * (1 - var(--progress)));
+  stroke-dasharray: 125.6;
+  transform: rotate(-90deg);
+}
+*/
+
+/* Keep navigation/other styles if needed */
+.swiper-button-next,
+.swiper-button-prev {
+    color: #007aff; /* Example color */
+}
+
+/* Removed pagination styles as pagination is disabled */
+/*
+.swiper-pagination-bullet-active {
+    background: #007aff;
+}
+*/
