@@ -280,6 +280,7 @@ const Main = () => {
               </div>
             </>
           ) : (
+            <div className="chat-messages-container">
             <div className="chat-messages">
               {messages.map((message, index) => (
                 <div key={index} className={`message ${message.sender}`}>
@@ -297,6 +298,7 @@ const Main = () => {
                 </div>
               )}
               <div ref={messagesEndRef} />
+            </div>
             </div>
           )}
 
