@@ -25,21 +25,22 @@ const Sidebar = ({ currentChatId, onNewChat, onChatSelect }) => {
 
   return (
     <div className={`Sidebar ${extended ? 'extended' : ''}`}>
-      <div className="top">
-        <img 
-          onClick={() => setExtended(!extended)} 
-          className="menu" 
-          src={assets.menu_icon} 
-          alt="Menu" 
-        />
-        <div className="new-chat" onClick={onNewChat}>
-          <img src={assets.plus_icon} alt="New chat" />
-          {extended && <p>New chat</p>}
-        </div>
-        
-        {extended && (
-          <div className="recent">
-            <p className="recent-title">Recent Chats</p>
+    <div className="top">
+      <img 
+        onClick={() => setExtended(!extended)} 
+        className="menu" 
+        src={assets.menu_icon} 
+        alt="Menu" 
+      />
+      <div className="new-chat" onClick={onNewChat}>
+        <img src={assets.plus_icon} alt="New chat" />
+        {extended && <p>New chat</p>}
+      </div>
+      
+      {extended && (
+        <div className="recent-container"> {/* New container div */}
+          <p className="recent-title">Recent Chats</p>
+          <div className="recent-chats-scrollable"> {/* Scrollable area */}
             {recentChats.map(chat => (
               <div 
                 key={chat.id}
@@ -54,8 +55,9 @@ const Sidebar = ({ currentChatId, onNewChat, onChatSelect }) => {
               </div>
             ))}
           </div>
-        )}
-      </div>
+        </div>
+      )}
+    </div>
       <div className="bottom">
         <div className="bottom-item recent-entry">
           <img src={assets.question_icon} alt="Help" />
