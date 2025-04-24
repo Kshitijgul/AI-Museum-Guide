@@ -3,7 +3,7 @@ import Sidebar from "../Sidebar/Sidebar";
 import "./Main.css";
 import { assets } from "../../assets/assets";
 
-const API_BASE = "http://192.168.0.110:5000";
+const API_BASE = "http://192.168.0.112:5000";
 
 const languageOptions = [
   { code: "English", name: "English" },
@@ -18,9 +18,8 @@ const languageOptions = [
   { code: "Punjabi", name: "Punjabi" },
   { code: "Odia", name: "Odia" },
   { code: "Urdu", name: "Urdu" },
-  { code: "Spanish", name: "Spanish" },
-  { code: "French", name: "French" },
-  { code: "German", name: "German" },
+  { code: "Assamese", name: "Assamese" },
+  // Remove Spanish, French, German if not supported by backend
 ];
 
 const Main = () => {
@@ -30,7 +29,7 @@ const Main = () => {
   const [isListening, setIsListening] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [showLanguagePopup, setShowLanguagePopup] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("ENGLISH");
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
   const recognitionRef = useRef(null);
   const inputRef = useRef(null);
   const messagesEndRef = useRef(null);
@@ -171,10 +170,14 @@ const Main = () => {
         data.response ||
         "Received an unexpected response from the server.";
 
+      // Convert response to pointwise format if it's not already
+      const formattedResponse = formatResponseToPoints(botText);
+
       const botReply = {
-        text: botText,
+        text: formattedResponse,
         sender: "ai",
         timestamp: new Date(),
+        isPoints: true, // Add flag to indicate pointwise response
       };
       setMessages((prev) => [...prev, botReply]);
     } catch (error) {
@@ -187,12 +190,36 @@ const Main = () => {
           }`,
           sender: "ai",
           timestamp: new Date(),
+          isPoints: false,
         },
       ]);
     } finally {
       setIsLoading(false);
       inputRef.current?.focus();
     }
+  };
+
+  // Helper function to format response into points
+  const formatResponseToPoints = (text) => {
+    // If response already contains bullet points or numbered lists, keep as is
+    if (
+      text.includes("•") ||
+      text.includes("*") ||
+      text.includes("1.") ||
+      text.includes("-")
+    ) {
+      return text;
+    }
+
+    // Split by sentences and create bullet points
+    const sentences = text.split(/[.!?]+/).filter((s) => s.trim().length > 0);
+    if (sentences.length <= 1) {
+      return text; // Return as is if only one sentence
+    }
+
+    // Format as bullet points
+
+    return sentences.map((sentence) => `• ${sentence.trim()}`).join("\n");
   };
 
   // Fix for the handleGenerateImage function - replace only this function in your code
@@ -228,7 +255,7 @@ const Main = () => {
       console.log("Hello");
 
       // Make the request to the image generation API
-      const response = await fetch("http://192.168.0.110:5001/api/generate", {
+      const response = await fetch("http://192.168.0.112:5001/api/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -410,6 +437,7 @@ const Main = () => {
                   <span className="timestamp">{formatTime(new Date(message.timestamp))}</span>
                 </div>
               ))} */}
+
                   {messages.map((message, index) => (
                     <div
                       key={index}
@@ -417,11 +445,22 @@ const Main = () => {
                         message.sender === "user" ? "user-msg" : "ai-msg"
                       }
                     >
-                      <p>{message.text}</p>
+                      {message.isPoints ? (
+                        <div className="pointwise-response">
+                          {message.text.split("\n").map((point, i) => (
+                            <p key={i} className="response-point">
+                              {point}
+                            </p>
+                          ))}
+                        </div>
+                      ) : (
+                        <p>{message.text}</p>
+                      )}
                       <span className="timestamp">
                         {formatTime(new Date(message.timestamp))}
                       </span>
 
+                      {/* Rest of your existing code for image generation */}
                       {message.sender === "ai" && (
                         <>
                           {!message.image && (
@@ -436,17 +475,6 @@ const Main = () => {
                                 ? "Generating..."
                                 : "Generate Image"}
                             </button>
-                            /* <button
-                              onClick={() =>
-                                handleGenerateImage(message.userQuestion, index)
-                              }
-                              disabled={message.imageLoading}
-                              className="generate-image-btn"
-                            >
-                              {message.imageLoading
-                                ? "Generating..."
-                                : "Generate Image"}
-                            </button> */
                           )}
 
                           {message.summary && (

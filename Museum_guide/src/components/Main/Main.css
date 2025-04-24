@@ -580,3 +580,42 @@
   max-width: 100%;
   border-radius: 8px;
 }
+
+
+ /* Add to your Main.css */
+.pointwise-response {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.response-point {
+  margin: 0;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.response-point::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #4f46e5; /* Or any color you prefer */
+  font-weight: bold;
+}
+
+.ai-msg .pointwise-response {
+  color: #333;
+}
+
+/* For numbered lists */
+.response-point.numbered {
+  padding-left: 20px;
+}
+
+.response-point.numbered::before {
+  content: counter(point) ".";
+  counter-increment: point;
+  left: 0;
+}
+  
